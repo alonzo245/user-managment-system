@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  #SERVER --------------------------------------//
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PORT=${SERVER_PORT}
+      - NODE_ENV=development
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    volumes:
+      - ./server/src:/app/server/src
+    command: nodemon -L src/server.js
+    depends_on:
+      - db
+    links:
+      - db
+    restart: always
+
+  #CLIENT --------------------------------------//
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    environment:
+      - REACT_APP_PORT=${REACT_APP_PORT}
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING}
+    ports:
+      - ${REACT_APP_PORT}:${REACT_APP_PORT}
+    volumes:
+      - ./client/src:/app/client/src
+      - ./client/public:/app/client/public
+    links:
+      - server
+    depends_on:
+      - server
+      - db
+    command: npm run start
+    restart: always
+
+#DB --------------------------------------------//
+  db:
+    image: mongo:4.0
+    command: mongod --port ${MONGO_PORT}
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    restart: always
