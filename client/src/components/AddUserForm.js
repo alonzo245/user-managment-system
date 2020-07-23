@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-const AddUserForm = ({ addUser }) => {
+export default ({ addUser }) => {
   const initialFormState = {
     firstName: "",
     lastName: "",
     password: "",
     email: "",
-    description: ""
+    description: "",
   };
   const [user, setUser] = useState(initialFormState);
 
@@ -68,5 +68,3 @@ const AddUserForm = ({ addUser }) => {
     </form>
   );
 };
-
-export default AddUserForm;

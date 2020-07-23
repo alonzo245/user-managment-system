@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AddUserForm from "./components/AddUserForm";
-import UserTable from "./components/UserTable";
+import UsersTable from "./components/UsersTable";
 import "./App.css";
 
 const App = () => {
@@ -46,7 +46,7 @@ const App = () => {
 
       <div className="flex-large">
         <h2>Users</h2>
-        <UserTable users={users} />
+        <UsersTable users={users} />
       </div>
     </div>
   );
